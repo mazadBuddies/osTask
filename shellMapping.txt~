@@ -2,3 +2,4 @@ dir=>ls
 mkdir=>mkdir
 cls=>clear
 cls=>clear
+test -a -b=>test -a -b

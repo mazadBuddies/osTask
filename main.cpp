@@ -8,7 +8,6 @@
 
 #include <bits/stdc++.h>
 
-
 #define notFound    "NULL"
 #define sep         "=>"
 #define rep(vec)    for(int i=0;i<(vec).size();i++)
@@ -32,6 +31,7 @@ void startCommand();
 string getOsName();
 void setCommandAsMap(vstr comnds);
 char* toChar(string str);
+int haveParam(type command);
 
 type getMapByIndex(map<string, string> mp, int index){
     shellMP::iterator it = mp.begin();
@@ -68,12 +68,17 @@ string copy(string str, int length, int start){
     return str2;
 }
 
-
+type getFirstWord(type str){
+    return ((int)str.find(" ") != -1)?str.substr(0, (int)str.find(" ")):str;
+}
 
 void Addcommand(){
     cout<<"ENTER COMMAND LIKE THIS 'DOS=>TERMINAL'";
-   string line;
-   cin >> line ;
+    getchar();
+    string line;
+    getline(cin, line);
+    cout<<line;
+    
    if((int )line.find(sep)!=-1)
        strVec.push_back(line);
     printToFile();
@@ -95,13 +100,35 @@ void startCommand(){
     lsMp(mp);
     int i;
     cin>>i;
-    if(i<= strVec.size()){
-        system(toChar(getMapByIndex(mp, i-1)));
+    if(i <= strVec.size()){
+        type fullCommand = getFirstWord(mp[getMapByIndex(mp, i-1)]);
+        int param = haveParam(getMapByIndex(mp, i-1));
+        if(param > 0){
+            cout<<"enter "<<param<<" parameters \n";
+            type paramStr;
+            while(param--){
+                cout<<">";
+                cin>>paramStr;
+                fullCommand+= " " + paramStr;
+            }//end of while 
+        }//end of if
+        /*
+            >/media/bodey/Boodey/A/ACM/p/Problems/shell/mc.txt                                                                                                              
+            >/media/bodey/Boodey/   
+         */
+        system(toChar(fullCommand));
     }else{
         cout<<"NOT FOUND\n";
     }
 }
 
+int haveParam(type command){
+    int miusCnt = 0;
+    for(int i = 0;i < command.length();i++)
+        if(command[i] == '-')
+            miusCnt++;
+    return miusCnt;
+}
 
 void Menu(){
    bool flag = false;
@@ -172,7 +199,7 @@ void setCommandAsMap(vstr comnds){
            strDos = copy(comnds[i], index, 0);
            strTer = copy(comnds[i], comnds[i].length()-(strDos.length()+2), strDos.length()+2);
            mp[strDos] = strTer;
-           mp[strTer] = strDos;
+           //mp[strTer] = strDos;
        }//end of if
     }//end of for
 }//end of function setCommandAsMap
