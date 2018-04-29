@@ -32,6 +32,8 @@ string getOsName();
 void setCommandAsMap(vstr comnds);
 char* toChar(string str);
 int haveParam(type command);
+bool isWindows();
+bool isLinux();
 
 type getMapByIndex(map<string, string> mp, int index){
     shellMP::iterator it = mp.begin();
@@ -112,10 +114,7 @@ void startCommand(){
                 fullCommand+= " " + paramStr;
             }//end of while 
         }//end of if
-        /*
-            >/media/bodey/Boodey/A/ACM/p/Problems/shell/mc.txt                                                                                                              
-            >/media/bodey/Boodey/   
-         */
+        
         system(toChar(fullCommand));
     }else{
         cout<<"NOT FOUND\n";
@@ -174,19 +173,19 @@ vector<string> readFromFile(string filePath)
 
 string getOsName(){
     #ifdef _WIN32
-    return "Windows 32-bit";
+        return "Windows 32-bit";
     #elif _WIN64
-    return "Windows 64-bit";
+        return "Windows 64-bit";
     #elif __unix || __unix__
-    return "Unix";
+        return "Unix";
     #elif __APPLE__ || __MACH__
-    return "Mac OSX";
+        return "Mac OSX";
     #elif __linux__
-    return "Linux";
+        return "Linux";
     #elif __FreeBSD__
-    return "FreeBSD";
+        return "FreeBSD";
     #else
-    return "Other";
+        return "Other";
     #endif
 }
 
@@ -198,8 +197,10 @@ void setCommandAsMap(vstr comnds){
        if(index != -1){
            strDos = copy(comnds[i], index, 0);
            strTer = copy(comnds[i], comnds[i].length()-(strDos.length()+2), strDos.length()+2);
-           mp[strDos] = strTer;
-           //mp[strTer] = strDos;
+           if(isLinux())
+               mp[strDos] = strTer;
+           else if(isWindows())
+               mp[strTer] = strDos;
        }//end of if
     }//end of for
 }//end of function setCommandAsMap
@@ -218,6 +219,14 @@ void printToFile(){
 
 bool isGood(vector<string> cmnds){
     return (cmnds[0] != notFound);
+}
+
+bool isWindows(){
+    return (getOsName()[0] == 'W');
+}
+
+bool isLinux(){
+    return (getOsName()[0] == 'L' || getOsName()[0] == 'U');
 }
 
 int main(int argc, char** argv) {
