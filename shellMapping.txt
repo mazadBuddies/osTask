@@ -1,5 +1,2 @@
 dir=>ls
-mkdir=>mkdir
-cls=>clear
-cls=>clear
 move -a -b=>mv -a -b

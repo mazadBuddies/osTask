@@ -80,16 +80,18 @@ void Addcommand(){
     string line;
     getline(cin, line);
     cout<<line;
-    
-   if((int )line.find(sep)!=-1)
-       strVec.push_back(line);
-    printToFile();
-    strVec = readFromFile(shellFile);
-    setCommandAsMap(strVec);
+    if((int )line.find(sep)!=-1){
+        strVec.push_back(line);
+        printToFile();
+        strVec = readFromFile(shellFile);
+        setCommandAsMap(strVec);
+    }else{
+       cout<<"NOT VALID COMMAND";
+    }
 }
 
 void printMenu(){
-    cout<<"1-Start Command\n2-Help And Manual\n3-Add command\n4-Exit\n";
+    cout<<"1-Start Command\n2-Help And Manual\n3-Add command\n4-Delete Command\n5-Exit\n";
 }
 
 void getManual(){
@@ -129,6 +131,20 @@ int haveParam(type command){
     return miusCnt;
 }
 
+void deleteCommand(){
+    lsVecWithLineNumber(strVec);
+    int i;
+    cin>>i;
+    if(i<= (int)strVec.size()){
+        strVec.erase(strVec.begin()+(i-1));
+        printToFile();
+        strVec = readFromFile(shellFile);
+        setCommandAsMap(strVec);
+    }else{
+        cout<<"NOT VALID INDEX";
+    }
+    
+}
 void Menu(){
    bool flag = false;
    while (flag!=true){
@@ -142,7 +158,9 @@ void Menu(){
                 break;
             case 3 : Addcommand();
                 break;
-            case 4 : flag=true;
+            case 4: deleteCommand();
+                break;
+            case 5 : flag=true;
                 break;
             default: cout << "Your choice is wrong choose again!";
                 break;
