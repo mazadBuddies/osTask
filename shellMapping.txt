@@ -1,0 +1,4 @@
+dir=>ls
+mkdir=>mkdir
+cls=>clear
+cls=>clear

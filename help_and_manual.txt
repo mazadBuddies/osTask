@@ -1,0 +1,5 @@
+That Shell accepts DOS commands and display the output with termainal
+
+sach as :
+
+=> You write "dire" the shell runs "ls" command.
