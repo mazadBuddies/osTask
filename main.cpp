@@ -149,22 +149,16 @@ void Menu(){
    bool flag = false;
    while (flag!=true){
         printMenu();
-        int i;
+        type i;
+        cout<<">";
         cin >> i;
-        switch(i){
-            case 1 : startCommand();
-                break;
-            case 2 : getManual();
-                break;
-            case 3 : Addcommand();
-                break;
-            case 4: deleteCommand();
-                break;
-            case 5 : flag=true;
-                break;
-            default: cout << "Your choice is wrong choose again!";
-                break;
-        }//end of switch 
+        if(i == "1"){startCommand();}
+        else if(i == "2"){getManual();}
+        else if(i == "3"){Addcommand();}
+        else if(i == "4"){deleteCommand();}
+        else if(i == "5"){flag=true;}
+        else if((int)i.find("-h")!=-1 || (int)i.find("-help")!=-1){getManual();}
+        else{cout << "Your choice is wrong choose again!";}
     }//end of while
 }//end of function
 
